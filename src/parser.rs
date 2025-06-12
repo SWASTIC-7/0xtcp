@@ -74,13 +74,13 @@ pub  struct TCPHeader {
     pub urgent_pointer: u16,
 }
 #[allow(dead_code)]
-pub struct ParsedPacket {
+pub struct Packet {
     pub ip_header: IPHeader,
     pub tcp_header: TCPHeader,
     pub data: Vec<u8>,
 }
 
-pub fn parser(buffer: &[u8]) -> Option<ParsedPacket> {
+pub fn parser(buffer: &[u8]) -> Option<Packet> {
         if buffer.len() < 20 {
         return None;
     }
@@ -145,7 +145,7 @@ pub fn parser(buffer: &[u8]) -> Option<ParsedPacket> {
         Vec::new()
     };
 
-    Some(ParsedPacket {
+    Some(Packet {
         ip_header,
         tcp_header,
         data,
