@@ -109,7 +109,7 @@ impl State {
                     fragment_offset: packet.ip_header.fragment_offset,
                     ttl: packet.ip_header.ttl,
                     protocol: 6, 
-                    header_checksum: 0, 
+                    header_checksum: 
                     source: packet.ip_header.destination ,
                     destination: packet.ip_header.source,
                 },
@@ -125,10 +125,11 @@ impl State {
                     checksum: 0, 
                     urgent_pointer: 0,
                 },
-                data: Vec::new(),
+                data: [0u8; 500],
             };
-
-
+            
+            
+            
             packet.create_packet()
             
         } else {
@@ -137,3 +138,4 @@ impl State {
         raw_packet
     }
 }
+

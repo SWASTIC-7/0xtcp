@@ -77,7 +77,7 @@ pub  struct TCPHeader {
 pub struct Packet {
     pub ip_header: IPHeader,
     pub tcp_header: TCPHeader,
-    pub data: Vec<u8>,
+    pub data: [u8; 500],
 }
 
 pub fn parser(buffer: &[u8]) -> Option<Packet> {
@@ -140,9 +140,11 @@ pub fn parser(buffer: &[u8]) -> Option<Packet> {
     
     let data_start = ip_header_len + tcp_header_len;
     let data = if data_start < buffer.len() {
-        buffer[data_start..].to_vec()
+        let mut data = [0u8; 500];
+        data[..buffer[data_start..].len()].copy_from_slice(&buffer[data_start..]);
+        data
     } else {
-        Vec::new()
+        [0u8; 500]
     };
 
     Some(Packet {
