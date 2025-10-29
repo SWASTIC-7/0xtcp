@@ -18,9 +18,8 @@
 
 //                     from rfc 971 -- Internet Protocol
 
-
-//     0                   1                   2                   3   
-//     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 
+//     0                   1                   2                   3
+//     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //    |          Source Port          |       Destination Port        |
 //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -46,28 +45,27 @@
 use std::net::Ipv4Addr;
 #[allow(dead_code)]
 pub struct IPHeader {
-    pub version:  u8,   //4 bits
-    pub ihl: u8,        //4 bits
+    pub version: u8, //4 bits
+    pub ihl: u8,     //4 bits
     pub type_of_service: u8,
     pub total_len: u16,
     pub identification: u16,
-    pub flags: u8,      //3 bits
-    pub fragment_offset: u16,    //13 bits
+    pub flags: u8,            //3 bits
+    pub fragment_offset: u16, //13 bits
     pub ttl: u8,
     pub protocol: u8,
     pub header_checksum: u16,
     pub source: Ipv4Addr,
     pub destination: Ipv4Addr,
-
 }
 #[allow(dead_code)]
-pub  struct TCPHeader {
+pub struct TCPHeader {
     pub source_port: u16,
     pub destination_port: u16,
     pub sequence_number: u32,
     pub acknowledge_number: u32,
-    pub data_offset: u8,   //4 bits
-    pub reserved: u8,     // 4 bits
+    pub data_offset: u8, //4 bits
+    pub reserved: u8,    // 4 bits
     pub control_bit: u8,
     pub window: u16,
     pub checksum: u16,
@@ -81,18 +79,18 @@ pub struct Packet {
 }
 
 pub fn parser(buffer: &[u8]) -> Option<Packet> {
-        if buffer.len() < 20 {
+    if buffer.len() < 20 {
         return None;
     }
 
     // Parse IP Header
     let ip_header = IPHeader {
-        version: (buffer[0] >> 4) & 0x0F,  // First 4 bits
-        ihl: buffer[0] & 0x0F,             // Last 4 bits
+        version: (buffer[0] >> 4) & 0x0F, // First 4 bits
+        ihl: buffer[0] & 0x0F,            // Last 4 bits
         type_of_service: buffer[1],
         total_len: u16::from_be_bytes([buffer[2], buffer[3]]),
         identification: u16::from_be_bytes([buffer[4], buffer[5]]),
-        flags: (buffer[6] >> 5) & 0x07,    // 3 bits
+        flags: (buffer[6] >> 5) & 0x07, // 3 bits
         fragment_offset: u16::from_be_bytes([buffer[6] & 0x1F, buffer[7]]), // 13 bits
         ttl: buffer[8],
         protocol: buffer[9],
@@ -103,13 +101,12 @@ pub fn parser(buffer: &[u8]) -> Option<Packet> {
 
     // Calculate IP header length (IHL is in 32-bit words)
     let ip_header_len = (ip_header.ihl as usize) * 4;
-    
+
     // Checking if buffer is long enough for TCP header
-    if buffer.len() < ip_header_len + 20 {  
+    if buffer.len() < ip_header_len + 20 {
         return None;
     }
 
-    
     let tcp_start = ip_header_len;
     let tcp_header = TCPHeader {
         source_port: u16::from_be_bytes([buffer[tcp_start], buffer[tcp_start + 1]]),
@@ -126,7 +123,7 @@ pub fn parser(buffer: &[u8]) -> Option<Packet> {
             buffer[tcp_start + 10],
             buffer[tcp_start + 11],
         ]),
-        data_offset: (buffer[tcp_start + 12] >> 4) & 0x0F,  // First 4 bits
+        data_offset: (buffer[tcp_start + 12] >> 4) & 0x0F, // First 4 bits
         reserved: buffer[tcp_start + 12] & 0x0F,           // Last 4 bits
         control_bit: buffer[tcp_start + 13],
         window: u16::from_be_bytes([buffer[tcp_start + 14], buffer[tcp_start + 15]]),
@@ -136,8 +133,7 @@ pub fn parser(buffer: &[u8]) -> Option<Packet> {
 
     // Calculate TCP header length (data offset is in 32-bit words)
     let tcp_header_len = (tcp_header.data_offset as usize) * 4;
-    
-    
+
     let data_start = ip_header_len + tcp_header_len;
     let data = if data_start < buffer.len() {
         let mut data = [0u8; 500];
@@ -152,5 +148,4 @@ pub fn parser(buffer: &[u8]) -> Option<Packet> {
         tcp_header,
         data,
     })
-
 }
