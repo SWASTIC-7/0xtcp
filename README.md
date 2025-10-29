@@ -1,6 +1,6 @@
 # TCP Implementation in Rust
 
-OxTCP is an experimental transport-layer engine [RFC-793] written from scratch in Rust. It focuses on robustness and RFC compliance, supporting selective acknowledgments, D-SACK, timestamp options, reassembly queuing, fast recovery, and async integrations for real-world performance testing.
+0xTCP is an experimental transport-layer engine [RFC-793] written from scratch in Rust. It focuses on robustness and RFC compliance, supporting selective acknowledgments, D-SACK, timestamp options, reassembly queuing, fast recovery, and async integrations for real-world performance testing.
 
 ## Features
 - [x] Sequence & Acknowledgment Number Tracking
@@ -35,13 +35,13 @@ OxTCP is an experimental transport-layer engine [RFC-793] written from scratch i
 Client              TUN Interface              This Program
   |                      |                           |
   |-------- SYN -------->|                           |
-  |                      |-------- SYN ------------>|
+  |                      |-------- SYN ------------->|
   |                      |                           |
-  |                      |<------- SYN-ACK ---------|
+  |                      |<------- SYN-ACK ----------|
   |<----- SYN-ACK -------|                           |
   |                      |                           |
   |-------- ACK -------->|                           |
-  |                      |-------- ACK ------------>|
+  |                      |-------- ACK ------------->|
   |                      |                           |
 ```
 
@@ -73,7 +73,7 @@ tcp/
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/SWASTIC-7/0xtcp
 cd tcp
 ```
 
