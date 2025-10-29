@@ -5,20 +5,20 @@ OxTCP is an experimental transport-layer engine [RFC-793] written from scratch i
 ## Features
 - [x] Sequence & Acknowledgment Number Tracking
 - [x] Data Transmission + ACK Handling
-- [] Retransmission Timer
-- [] Duplicate ACK & Fast Retransmit
-- [] Out-of-Order Segments & Reassembly Queue
-- [] Flow Control
-- [] Window Scaling Option (RFC 7323)
-- [] Congestion Control -- Reno, NewReno, Tahoe
-- [] Selective Acknowledgment (SACK) — RFC 2018
-- [] Duplicate SACK (D-SACK) — RFC 2883
-- [] Timestamp Option — RFC 7323
-- [] TCP Fast Open (TFO) — RFC 7413
-- [] Delayed ACKs
-- [] Nagle’s Algorithm
-- [] TCP Keep-Alive
-- [] Asynchronous Runtime Integration
+- [x] Retransmission Timer
+- [ ] Duplicate ACK & Fast Retransmit
+- [ ] Out-of-Order Segments & Reassembly Queue
+- [ ] Flow Control
+- [ ] Window Scaling Option (RFC 7323)
+- [ ] Congestion Control -- Reno, NewReno, Tahoe
+- [ ] Selective Acknowledgment (SACK) — RFC 2018
+- [ ] Duplicate SACK (D-SACK) — RFC 2883
+- [ ] Timestamp Option — RFC 7323
+- [ ] TCP Fast Open (TFO) — RFC 7413
+- [ ] Delayed ACKs
+- [ ] Nagle’s Algorithm
+- [ ] TCP Keep-Alive
+- [ ] Asynchronous Runtime Integration
 
 
 ## How It Works

@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 tun-tap = "0.1.4"
 etherparse = "0.16.0"
+libc = "0.2.177"
